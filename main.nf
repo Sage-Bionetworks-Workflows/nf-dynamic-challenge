@@ -15,8 +15,8 @@ params.memory = "16.GB"
 include { SYNAPSE_STAGE } from './modules/synapse_stage.nf'
 include { GET_SUBMISSIONS } from './modules/get_submissions.nf'
 include { UPDATE_SUBMISSION_STATUS as UPDATE_SUBMISSION_STATUS_BEFORE_RUN } from './modules/update_submission_status.nf'
-include { RUN_DOCKER } from './modules/run_docker.nf'
-include { UPDATE_SUBMISSION_STATUS as UPDATE_SUBMISSION_STATUS_AFTER_RUN } from './modules/update_submission_status.nf'
+// include { RUN_DOCKER } from './modules/run_docker.nf'
+// include { UPDATE_SUBMISSION_STATUS as UPDATE_SUBMISSION_STATUS_AFTER_RUN } from './modules/update_submission_status.nf'
 include { UPDATE_SUBMISSION_STATUS as UPDATE_SUBMISSION_STATUS_AFTER_VALIDATE } from './modules/update_submission_status.nf'
 include { UPDATE_SUBMISSION_STATUS as UPDATE_SUBMISSION_STATUS_AFTER_SCORE } from './modules/update_submission_status.nf'
 include { VALIDATE } from './modules/validate.nf'
@@ -31,8 +31,10 @@ workflow {
         .splitCsv(header:true) 
         .map { row -> tuple(row.submission_id, row.image_id) }
     UPDATE_SUBMISSION_STATUS_BEFORE_RUN(image_ch.map { tuple(it[0], "EVALUATION_IN_PROGRESS") })
-    RUN_DOCKER(image_ch, SYNAPSE_STAGE.output, params.cpus, params.memory, UPDATE_SUBMISSION_STATUS_BEFORE_RUN.output)
-    UPDATE_SUBMISSION_STATUS_AFTER_RUN(RUN_DOCKER.output.map { tuple(it[0], "ACCEPTED") })
+    // TOOD: Need to add download submission module
+
+    // RUN_DOCKER(image_ch, SYNAPSE_STAGE.output, params.cpus, params.memory, UPDATE_SUBMISSION_STATUS_BEFORE_RUN.output)
+    // UPDATE_SUBMISSION_STATUS_AFTER_RUN(RUN_DOCKER.output.map { tuple(it[0], "ACCEPTED") })
     VALIDATE(RUN_DOCKER.output, UPDATE_SUBMISSION_STATUS_AFTER_RUN.output)
     UPDATE_SUBMISSION_STATUS_AFTER_VALIDATE(VALIDATE.output.map { tuple(it[0], it[2]) })
     ANNOTATE_SUBMISSION_AFTER_VALIDATE(VALIDATE.output)
