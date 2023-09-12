@@ -1,5 +1,5 @@
-# nf-model2data
-This Nextflow Workflow was created to run model-to-data challenges.
+# nf-data2model
+This Nextflow Workflow was created to run data-to-model challenges.
 
 ## Prerequisites
 
@@ -8,8 +8,7 @@ In order to use this workflow, you must already have completed the following ste
 1. Created a Synapse project shared with challenge participants.
 2. Created an evaluation queue within the Synapse project.
 3. One or more Docker containers must have already been submitted to your evaluation queue.
-4. Created a submission view that at least includes the `id`, `status`, `dockerrepositoryname`, and `dockerdigest` columns.
-    - Note: This workflow was developed and tested using [this repo](https://github.com/Sage-Bionetworks-Challenges/sample-model-templates/tree/main/python) as an example submission, and submissions evaluated using this workflow must follow the same format (i.e. model submission should expect input data in `/input` directory and place exported files in `/ouput` directory).
+4. Created a submission view that at least includes the `id`, `status` columns.
 5. Added the input data for evaluating submissions to a folder within your Synapse project.
 
 ## Running the workflow
