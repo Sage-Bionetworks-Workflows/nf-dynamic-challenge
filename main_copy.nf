@@ -24,6 +24,7 @@ include { ANNOTATE_SUBMISSION as ANNOTATE_SUBMISSION_AFTER_VALIDATE } from './mo
 include { ANNOTATE_SUBMISSION as ANNOTATE_SUBMISSION_AFTER_SCORE } from './modules/annotate_submission.nf'
 
 workflow {
+    println "Running workflow from copy main!!!"
     // SYNAPSE_STAGE(params.input_id)
     GET_SUBMISSIONS(params.view_id)
     image_ch = GET_SUBMISSIONS.output 
