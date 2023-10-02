@@ -26,19 +26,19 @@ include { ANNOTATE_SUBMISSION as ANNOTATE_SUBMISSION_AFTER_SCORE } from './modul
 workflow {
     println "Running workflow from copy main!!!"
     // SYNAPSE_STAGE(params.input_id)
-    GET_SUBMISSIONS(params.view_id)
-    image_ch = GET_SUBMISSIONS.output 
-        .splitCsv(header:true) 
-        .map { row -> tuple(row.submission_id, row.image_id) }
-    UPDATE_SUBMISSION_STATUS_BEFORE_RUN(image_ch.map { tuple(it[0], "EVALUATION_IN_PROGRESS") })
-    // TOOD: Need to add download submission module
-    DOWNLOAD_SUBMISSION(image_ch.map {it[0]})
-    // RUN_DOCKER(image_ch, SYNAPSE_STAGE.output, params.cpus, params.memory, UPDATE_SUBMISSION_STATUS_BEFORE_RUN.output)
-    // UPDATE_SUBMISSION_STATUS_AFTER_RUN(RUN_DOCKER.output.map { tuple(it[0], "ACCEPTED") })
-    VALIDATE(DOWNLOAD_SUBMISSION.output, "ready")
-    UPDATE_SUBMISSION_STATUS_AFTER_VALIDATE(VALIDATE.output.map { tuple(it[0], it[2]) })
-    ANNOTATE_SUBMISSION_AFTER_VALIDATE(VALIDATE.output)
-    SCORE(VALIDATE.output, UPDATE_SUBMISSION_STATUS_AFTER_VALIDATE.output, ANNOTATE_SUBMISSION_AFTER_VALIDATE.output)
-    UPDATE_SUBMISSION_STATUS_AFTER_SCORE(SCORE.output.map { tuple(it[0], it[2]) })
-    ANNOTATE_SUBMISSION_AFTER_SCORE(SCORE.output)
+    // GET_SUBMISSIONS(params.view_id)
+    // image_ch = GET_SUBMISSIONS.output 
+    //     .splitCsv(header:true) 
+    //     .map { row -> tuple(row.submission_id, row.image_id) }
+    // UPDATE_SUBMISSION_STATUS_BEFORE_RUN(image_ch.map { tuple(it[0], "EVALUATION_IN_PROGRESS") })
+    // // TOOD: Need to add download submission module
+    // DOWNLOAD_SUBMISSION(image_ch.map {it[0]})
+    // // RUN_DOCKER(image_ch, SYNAPSE_STAGE.output, params.cpus, params.memory, UPDATE_SUBMISSION_STATUS_BEFORE_RUN.output)
+    // // UPDATE_SUBMISSION_STATUS_AFTER_RUN(RUN_DOCKER.output.map { tuple(it[0], "ACCEPTED") })
+    // VALIDATE(DOWNLOAD_SUBMISSION.output, "ready")
+    // UPDATE_SUBMISSION_STATUS_AFTER_VALIDATE(VALIDATE.output.map { tuple(it[0], it[2]) })
+    // ANNOTATE_SUBMISSION_AFTER_VALIDATE(VALIDATE.output)
+    // SCORE(VALIDATE.output, UPDATE_SUBMISSION_STATUS_AFTER_VALIDATE.output, ANNOTATE_SUBMISSION_AFTER_VALIDATE.output)
+    // UPDATE_SUBMISSION_STATUS_AFTER_SCORE(SCORE.output.map { tuple(it[0], it[2]) })
+    // ANNOTATE_SUBMISSION_AFTER_SCORE(SCORE.output)
 }
