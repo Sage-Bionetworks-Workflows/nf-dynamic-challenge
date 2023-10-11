@@ -80,3 +80,10 @@ nextflow run main.nf -entry DATA_TO_MODEL_CHALLENGE -profile local
 ## Profiles
 
 The workflow includes two preconfigured `profiles` for memory and CPU allocation for the `RUN_DOCKER` step of Model-to-Data challenges. The `local` profile includes `cpus` = `4` and `memory` = `16.GB`. This is intended to be used for runs on local machines with adequate resources. The `tower` profile dedicates double the resources (`cpus` = `8`; `memory` = `32.GB`) and can be used when running the workflow on Nextflow Tower for improved performance.
+
+## Adding Support for New Challenge Types
+
+If you would like to add support for a new challenge type, you can do so by creating a new subworkflow in the `subworkflows` directory. Name your subworkflow clearly with the name of the new challenge type. You should try to use the existing library of modules to build your subworkflow. It is important to not change the logic of existing modules to avoid breaking other subworkflows. Rather, you should add new process definitions to the `modules` folder and give them clear names that indicate their purpose. Once you have created your subworkflow, you can add it to the `main.nf` file and test it using:
+```
+nextflow run main.nf -entry {your_new_subworkflow_name}
+```
