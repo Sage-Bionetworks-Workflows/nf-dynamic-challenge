@@ -17,7 +17,7 @@ include { SCORE } from '../modules/score.nf'
 include { ANNOTATE_SUBMISSION as ANNOTATE_SUBMISSION_AFTER_VALIDATE } from '../modules/annotate_submission.nf'
 include { ANNOTATE_SUBMISSION as ANNOTATE_SUBMISSION_AFTER_SCORE } from '../modules/annotate_submission.nf'
 
-workflow DATA_TO_MODEL {
+workflow DYNAMIC_CHALLENGE {
     GET_SUBMISSIONS(params.view_id)
     image_ch = GET_SUBMISSIONS.output 
         .splitCsv(header:true) 
